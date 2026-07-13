@@ -1,1 +1,7 @@
 version: "3"
+containers:
+- name: rancher-prime
+  image: ubuntu:24.04
+  memory: 256
+  resources:
+    memory: 256
