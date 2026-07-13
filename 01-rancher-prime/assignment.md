@@ -1,7 +1,7 @@
 ---
-slug: bysbk8
+slug: rancher-prime
 type: challenge
-title: Untitled Challenge
+title: Rancher Prime
 difficulty: basic
 timelimit: 0
 enhanced_loading: false
