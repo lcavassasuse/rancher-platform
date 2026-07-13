@@ -1,0 +1,21 @@
+slug: rancher-platform-aws-demo
+id: vh5dfnupubkw
+revision: 1
+title: "\U0001F680 SUSE Rancher Platform — Live Sales Demo"
+description: Automated demo environment on AWS with dynamic data ingestion.
+icon: ""
+tags: []
+owner: suse-labs
+developers: []
+instructors: []
+idle_timeout: 900
+timelimit: 0
+lab_config:
+  extend_ttl: 0
+  sidebar_enabled: false
+  hideStopButton: false
+  feedback_recap_enabled: false
+  feedback_tab_enabled: false
+  override_challenge_layout: false
+  loadingMessages: false
+enhanced_loading: null
