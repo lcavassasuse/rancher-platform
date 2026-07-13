@@ -6,7 +6,8 @@ description: Automated demo environment on AWS with dynamic data ingestion.
 icon: ""
 tags: []
 owner: suse-labs
-developers: []
+developers:
+- lorenzo.cavassa@suse.com
 instructors: []
 idle_timeout: 900
 timelimit: 0
