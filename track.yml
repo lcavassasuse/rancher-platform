@@ -1,21 +1,47 @@
-slug: untitled-track-68if7n
-id: lowhqylxoaby
-revision: 1
-title: Untitled Track
-description: ""
-icon: ""
-tags: []
-owner: suse-labs
-developers:
-- lorenzo.cavassa@suse.com
-instructors: []
-idle_timeout: 300
-timelimit: 1200
-lab_config:
-  extend_ttl: 0
-  sidebar_enabled: true
-  hideStopButton: false
-  feedback_recap_enabled: true
-  feedback_tab_enabled: false
-  loadingMessages: true
-enhanced_loading: null
+# ==============================================================================
+# METADATA AND ACCESS CONFIGURATION
+# ==============================================================================
+slug: rancher-platform-aws-demo
+title: 🚀 SUSE Rancher Platform — Live Sales Demo
+description: Automated demo environment on AWS with dynamic data ingestion.
+type: track
+owner: suse-labs            # Replace with your actual Instruqt organization_slug
+is_private: true                     # Hidden from public, only accessible via n8n tokens
+idle_timeout: 900                    # Cloud Governance: Auto-destroy after 15 minutes of inactivity
+
+# ==============================================================================
+# COMPUTING INFRASTRUCTURE (RUNNER AUTOMATION)
+# ==============================================================================
+virtual_wizards:
+  - name: runner-vm
+    image: gcr.io/instruqt/cli       # Official Instruqt image containing Git and base runtimes
+    shell: /bin/sh
+
+# ==============================================================================
+# LANDING PAGE CONFIGURATION (FORMER CHALLENGE)
+# ==============================================================================
+challenges:
+  - slug: rancher-platform-live-demo
+    title: Environment Provisioning & Documentation
+    type: challenge
+    timeout: 7200                    # Partner UX: 2 hours of autonomy for the sales meeting
+    assignment: |
+      ## Welcome to the SUSE Demo Platform
+      
+      The environment is currently being provisioned automatically on **Amazon AWS**.
+      Real-time logs from **OpenTofu** and **Ansible** are visible in the terminal on the right.
+      
+      ---
+      ### ⏱️ Activation Status:
+      * **Current Phase:** Executing IaC blueprints and running data ingestion "at the edge".
+      * **Estimated Time:** ~5-7 minutes.
+      
+      Once the logs are complete, the public Rancher URL and temporary credentials will be printed on screen.
+    
+    # Clean UI tabs to remove any "classroom/training" feel
+    tabs:
+      - title: Control Console (Logs)
+        type: terminal
+        hostname: runner-vm
+
+

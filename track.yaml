@@ -5,7 +5,7 @@ slug: rancher-platform-aws-demo
 title: 🚀 SUSE Rancher Platform — Live Sales Demo
 description: Automated demo environment on AWS with dynamic data ingestion.
 type: track
-owner: suse-presales-prod            # Replace with your actual Instruqt organization_slug
+owner: suse-labs            # Replace with your actual Instruqt organization_slug
 is_private: true                     # Hidden from public, only accessible via n8n tokens
 idle_timeout: 900                    # Cloud Governance: Auto-destroy after 15 minutes of inactivity
 
