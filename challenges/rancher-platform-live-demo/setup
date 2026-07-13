@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# ------------------------------------------------------------------------------
+# ERROR HANDLING FUNCTION
+# ------------------------------------------------------------------------------
+handle_error() {
+    local STAGE="$1"
+    echo "\n\033[0;31m=========================================================================="
+    echo "❌ CRITICAL ERROR DURING STAGE: $STAGE"
+    echo "==========================================================================\033[0m"
+    echo "The demo provisioning or data ingestion has failed. Please check the logs above."
+    exit 1
+}
+
+echo "=========================================================================="
+echo "🏗️  LAUNCHING AUTOMATION ENGINE: SUSE DEMO PLATFORM (AT THE EDGE)"
+echo "=========================================================================="
+
+# 1. Preliminary validation of volatile credentials injected by n8n
+if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+    handle_error "AWS Credentials Verification (Variables are empty or not passed by n8n)"
+fi
+
+# Configure environment variables for OpenTofu
+export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+export AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-eu-west-1}"
+
+# Dynamic sync of the cluster code
+echo "\n-> Fetching core blueprints and vertical datasets..."
+git clone git@github.com:lcavassasuse/rancher-platform.git && cd rancher-platform || handle_error "Git Clone Repository"
+
+# ------------------------------------------------------------------------------
+# STAGE 1: INFRASTRUCTURE PROVISIONING (OPENTOFU)
+# ------------------------------------------------------------------------------
+echo "\n-> Initializing OpenTofu..."
+tofu init || handle_error "OpenTofu Init"
+
+echo "\n-> Applying IaC blueprints on AWS Cloud..."
+tofu apply -auto-approve || handle_error "OpenTofu Apply (Cloud Infrastructure)"
+
+# ------------------------------------------------------------------------------
+# STAGE 2: CONFIGURATION & DATA INGESTION AT THE EDGE (ANSIBLE)
+# ------------------------------------------------------------------------------
+echo "\n-> Starting Configuration Management and Automated Data Seeding..."
+
+# Dynamically construct extra vars based on business metadata passed by n8n
+ANSIBLE_VARS="prospect_name=${PROSPECT_NAME:-DemoClient} target_industry=${INDUSTRY_VERTICAL:-standard} traffic_profile=${TRAFFIC_PROFILE:-normal}"
+
+if [ -f "site.yml" ]; then
+    # Ansible handles the Rancher setup and, based on 'target_industry' or 'traffic_profile',
+    # restores database dumps or triggers the time-shift metric generator for SUSE Observability
+    ansible-playbook -i hosts --extra-vars "$ANSIBLE_VARS" site.yml || handle_error "Ansible (Configuration & Data Ingestion)"
+else
+    handle_error "Repository Validation (site.yml file not found)"
+fi
+
+# ------------------------------------------------------------------------------
+# STAGE 3: COMPLETION AND CREDENTIALS EXPOSURE
+# ------------------------------------------------------------------------------
+RANCHER_URL=$(tofu output -raw rancher_server_url 2>/dev/null)
+
+echo "\n\033[0;32m=========================================================================="
+echo "🚀 [SUCCESS] THE DEMO ENVIRONMENT IS READY AND OPERATIONAL!"
+echo "==========================================================================\033[0m"
+echo "Configured Brand/Prospect: ${PROSPECT_NAME:-DemoClient}"
+echo "Injected Dataset / Industry: ${INDUSTRY_VERTICAL:-standard}"
+echo "Demo Access URL: $RANCHER_URL"
+echo "Please use the standard corporate credentials provided via email to log in."
+echo "=========================================================================="
+
+
