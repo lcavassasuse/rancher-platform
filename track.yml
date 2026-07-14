@@ -1,21 +1,22 @@
-slug: untitled-track-9ohc1c
-id: uoqsdxk0bpx0
+slug: rancher-platform-aws-demo
+id: nwd0h3scgmrv
 revision: 1
-title: Untitled Track
-description: ""
+title: "\U0001F680 SUSE Rancher Platform — Live Sales Demo"
+description: Automated demo environment on AWS with dynamic data ingestion.
 icon: ""
 tags: []
 owner: suse-labs
 developers:
 - lorenzo.cavassa@suse.com
 instructors: []
-idle_timeout: 300
-timelimit: 1200
+idle_timeout: 900
+timelimit: 0
 lab_config:
   extend_ttl: 0
-  sidebar_enabled: true
+  sidebar_enabled: false
   hideStopButton: false
-  feedback_recap_enabled: true
+  feedback_recap_enabled: false
   feedback_tab_enabled: false
-  loadingMessages: true
+  override_challenge_layout: false
+  loadingMessages: false
 enhanced_loading: null
