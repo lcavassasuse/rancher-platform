@@ -75,7 +75,7 @@ variable "root_volume_size_gb" {
 }
 
 # SSH key 
-variable "ssh_public_key" {
+variable "ssh_key_pub" {
   description = "SSH public key"
   type        = string
   default     = ""

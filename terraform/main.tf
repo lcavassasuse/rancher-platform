@@ -38,8 +38,6 @@ locals {
   # Derive AZ from region if not explicitly set
   availability_zone = var.availability_zone != "" ? var.availability_zone : "${var.aws_region}a"
 
-  ssh_public_key = coalesce(var.ssh_public_key, os.environ.get("SSH_KEY_PUB"))
-
 }
 
 module "vpc" {
