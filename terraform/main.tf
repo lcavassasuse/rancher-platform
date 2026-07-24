@@ -22,6 +22,7 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+  profile = "n8n-bot"
 
   default_tags {
     tags = local.common_tags
