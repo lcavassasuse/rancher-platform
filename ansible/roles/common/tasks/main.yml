@@ -76,7 +76,7 @@
   package:
     name:
       - curl
-      - "{{ 'python311-pip' if ansible_facts['os_family'] == 'Suse' else 'python3.11-pip' }}"
+      - "{{ 'python313-pip' if ansible_facts['os_family'] == 'Suse' else 'python3.13-pip' }}"
       - jq
       - git
       - vim
@@ -91,7 +91,7 @@
     name:
       - PyYAML
       - kubernetes
-    executable: pip3.11
+    executable: pip3.13
     state: present
 
 - name: Add /etc/hosts entry for Rancher hostname (avoids hairpin NAT issues in AWS)

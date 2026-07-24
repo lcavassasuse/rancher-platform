@@ -8,11 +8,11 @@
     ansible_python_interpreter: auto_silent
 
   tasks:
-    - name: Pre-flight Python 3.11 installation using raw commands
+    - name: Pre-flight Python 3.13 installation using raw commands
       block:
-        - name: Check for Python 3.11
-          raw: command -v python3.11
-          register: python311_exists
+        - name: Check for Python 3.13
+          raw: command -v python3.13
+          register: python313_exists
           changed_when: false
           failed_when: false
 
@@ -20,19 +20,19 @@
           raw: cat /etc/os-release
           register: os_release
           changed_when: false
-          when: python311_exists.rc != 0
+          when: python313_exists.rc != 0
 
         - name: Register SLES Python3 module if needed
           raw: suseconnect -p sle-module-python3/15.7/x86_64
-          when: python311_exists.rc != 0 and 'ID="sles"' in os_release.stdout
+          when: python313_exists.rc != 0 and 'ID="sles"' in os_release.stdout
 
-        - name: Install Python 3.11 on SUSE family
-          raw: zypper install -y python311
-          when: python311_exists.rc != 0 and 'ID_LIKE="suse"' in os_release.stdout
+        - name: Install Python 3.13 on SUSE family
+          raw: zypper install -y python313
+          when: python313_exists.rc != 0 and 'ID_LIKE="suse"' in os_release.stdout
 
-        - name: Install Python 3.11 on Debian family
-          raw: apt-get update && apt-get install -y python3.11
-          when: python311_exists.rc != 0 and 'ID_LIKE="debian"' in os_release.stdout
+        - name: Install Python 3.13 on Debian family
+          raw: apt-get update && apt-get install -y python3.13
+          when: python313_exists.rc != 0 and 'ID_LIKE="debian"' in os_release.stdout
 
     - name: Gather facts now that Python is available
       ansible.builtin.setup: {}
@@ -43,7 +43,7 @@
   become: yes
 
   vars:
-    ansible_python_interpreter: /usr/bin/python3.11
+    ansible_python_interpreter: /usr/bin/python3
     kubeconfig_dir: "{{ ansible_facts['env']['HOME'] }}/.rancher-dev/kubeconfigs"
     rke2_kubeconfig: "{{ ansible_facts['env']['HOME'] }}/.rancher-dev/kubeconfigs/rke2-kubeconfig.yaml"
 

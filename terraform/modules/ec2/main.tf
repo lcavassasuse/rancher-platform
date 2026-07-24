@@ -1,4 +1,4 @@
-# Data source: latest openSUSE Leap 15.6 AMI published by SUSE (free, no subscription required)
+# Data source: latest openSUSE Leap 16.0 AMI published by SUSE (free, no subscription required)
 data "aws_ami" "opensuse" {
   most_recent = true
   owners      = ["679593333241"] # SUSE's official AWS account
@@ -6,7 +6,7 @@ data "aws_ami" "opensuse" {
   filter {
     name   = "name"
     # values = ["openSUSE-Leap-16-0-v20260629-hvm-ssd-x86_64-*"]
-    values = ["openSUSE-Leap-15.6*x86_64*"]
+    values = ["openSUSE-Leap-16-0*x86_64*"]
   }
 
   filter {
