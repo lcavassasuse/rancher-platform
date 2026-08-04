@@ -13,13 +13,13 @@ variable "availability_zone" {
 variable "project_name" {
   description = "Short name used as prefix for all resource names and tags"
   type        = string
-  default     = "rancher-platform"
+  default     = ""
 }
 
 variable "environment" {
   description = "Environment label applied as a tag (e.g. dev, staging, prod)"
   type        = string
-  default     = "dev"
+  default     = ""
 }
 
 variable "existing_vpc_id" {
