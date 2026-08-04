@@ -1,4 +1,4 @@
-# Data source: latest openSUSE Leap 15.6 AMI published by SUSE (free, no subscription required)
+# Data source: latest openSUSE Leap 16.0 AMI published by SUSE (free, no subscription required)
 data "aws_ami" "opensuse" {
   most_recent = true
   owners      = ["679593333241"] # SUSE's official AWS account
@@ -6,7 +6,7 @@ data "aws_ami" "opensuse" {
   filter {
     name   = "name"
     # values = ["openSUSE-Leap-16-0-v20260629-hvm-ssd-x86_64-*"]
-    values = ["openSUSE-Leap-15.6*x86_64*"]
+    values = ["openSUSE-Leap-16-0*x86_64*"]
   }
 
   filter {
@@ -22,7 +22,8 @@ data "aws_ami" "opensuse" {
 
 resource "aws_key_pair" "rancher" {
   count      = var.public_key_path != "" ? 1 : 0
-  key_name   = "${var.name}-key"
+  #key_name   = "${var.name}-key"
+  key_name   = var.combined_name
   public_key = file(var.public_key_path)
   tags       = var.tags
 }
@@ -57,4 +58,8 @@ resource "aws_eip" "rancher" {
   instance = aws_instance.rancher.id
   domain   = "vpc"
   tags     = merge(var.tags, { Name = "${var.name}-rancher-eip" })
+}
+
+locals {
+  combined_name = var.combined_name
 }

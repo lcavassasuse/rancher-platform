@@ -43,3 +43,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "combined_name" {
+  description = "Nome combinato per tagging"
+  type        = string
+  default     = ""
+}

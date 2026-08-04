@@ -92,3 +92,27 @@ variable "ansible_user" {
   type        = string
   default     = "ec2-user" # SLES default on AWS
 }
+
+variable "partner_id" {
+   description = "SDP Partner ID"
+   type        = string
+   default     = "0123456789"
+}
+
+variable "invite_id" {
+   description = "Invite ID"
+   type        = string
+   default     = "xyz01234"
+}
+
+variable "track_id" {
+   description = "Track ID"
+   type        = string
+   default     = "012345xyz"
+}
+
+variable "timestamp" {
+   description = "Timestamp"
+   type        = string
+   default     = "012345xyz"
+}
