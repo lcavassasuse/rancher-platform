@@ -46,7 +46,6 @@ locals {
 
   # Derive AZ from region if not explicitly set
   availability_zone = var.availability_zone != "" ? var.availability_zone : "${var.aws_region}a"
-
 }
 
 module "vpc" {

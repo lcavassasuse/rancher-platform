@@ -74,12 +74,13 @@ variable "root_volume_size_gb" {
   default     = 100
 }
 
-# SSH key 
-variable "ssh_key_pub" {
-  description = "SSH public key"
+# SSH key — provide ONE of the two options below
+variable "public_key_path" {
+  description = "Path to local SSH public key to upload as an EC2 key pair. Leave empty if using key_name."
   type        = string
-  default     = ""
+  default     = "~/.ssh/id_rsa.pub"
 }
+
 
 variable "key_name" {
   description = "Name of an existing EC2 key pair. Used when public_key_path is empty."
