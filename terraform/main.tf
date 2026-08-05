@@ -30,7 +30,7 @@ provider "aws" {
       InviteID    = var.invite_id
       TrackID     = var.track_id
       Timestamp   = var.timestamp
-      ManagedBy   = "Terraform"
+      ManagedBy   = "OpenTofu"
     }
   }
 }
@@ -39,7 +39,7 @@ locals {
   common_tags = {
     Project     = var.project_name
     Environment = var.environment
-    ManagedBy   = "terraform"
+    ManagedBy   = "OpenTofu"
   }
   
   combined_name = "${var.partner_id}-${var.invite_id}-${var.track_id}-${var.timestamp}"
@@ -50,32 +50,28 @@ locals {
 
 module "vpc" {
   source = "./modules/vpc"
-
-  name              = var.project_name
   existing_vpc_id   = var.existing_vpc_id
   vpc_cidr          = var.vpc_cidr
   subnet_cidr       = var.subnet_cidr
   availability_zone = local.availability_zone
+  combined_name     = local.combined_name
   tags = {
-    Name = local.combined_name
+    Name = "vpc-${local.combined_name}"
   }
 }
 
 module "security_groups" {
   source = "./modules/security-groups"
-
-  name                  = var.project_name
   vpc_id                = module.vpc.vpc_id
   allowed_ssh_cidrs     = var.allowed_ssh_cidrs
   allowed_admin_cidrs   = var.allowed_admin_cidrs
   allowed_cluster_cidrs = var.allowed_cluster_cidrs
+  combined_name         = local.combined_name
   tags                  = local.common_tags
 }
 
 module "ec2" {
   source = "./modules/ec2"
-
-  name                = var.project_name
   subnet_id           = module.vpc.public_subnet_id
   security_group_id   = module.security_groups.security_group_id
   instance_type       = var.instance_type
@@ -83,6 +79,7 @@ module "ec2" {
   public_key_path     = var.public_key_path
   key_name            = var.key_name
   tags                = local.common_tags
+  combined_name       = local.combined_name
 }
 
 # Write a ready-to-use Ansible inventory into terraform/generated/ — never overwrites the

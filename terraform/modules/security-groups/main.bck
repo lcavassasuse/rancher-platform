@@ -1,5 +1,5 @@
 resource "aws_security_group" "rancher" {
-  name        = "security-group-${var.combined_name}"
+  name        = "${var.name}-rancher-sg"
   description = "Security group for Rancher management node"
   vpc_id      = var.vpc_id
 
@@ -75,6 +75,5 @@ resource "aws_security_group" "rancher" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.tags, { Name = "security-group-${var.combined_name}" })
+  tags = merge(var.tags, { Name = "${var.name}-rancher-sg" })
 }
-

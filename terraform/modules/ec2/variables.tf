@@ -1,8 +1,3 @@
-variable "name" {
-  description = "Prefix applied to all resource names"
-  type        = string
-}
-
 variable "subnet_id" {
   description = "Subnet in which to launch the instance"
   type        = string
@@ -49,3 +44,4 @@ variable "combined_name" {
   type        = string
   default     = ""
 }
+

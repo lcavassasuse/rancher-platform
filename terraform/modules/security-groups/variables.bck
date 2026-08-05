@@ -1,11 +1,5 @@
 variable "name" {
-  description = "Prefix applied to all resource names (legacy, use combined_name)"
-  type        = string
-  default     = ""
-}
-
-variable "combined_name" {
-  description = "Nome combinato per tagging (preferito)"
+  description = "Prefix applied to all resource names"
   type        = string
 }
 
@@ -44,4 +38,3 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
-

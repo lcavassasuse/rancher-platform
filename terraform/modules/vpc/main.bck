@@ -9,15 +9,16 @@ resource "aws_vpc" "this" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
-  tags = merge(var.tags, { Name = "vpc-${var.combined_name}" })
+  tags = merge(var.tags, { Name = "${var.name}-vpc" })
 }
 
 resource "aws_internet_gateway" "this" {
   count  = local.create_vpc ? 1 : 0
   vpc_id = local.vpc_id
-  tags   = merge(var.tags, { Name = "igw-${var.combined_name}" })
+  tags   = merge(var.tags, { Name = "${var.name}-igw" })
 }
 
+# When using existing VPC, find its internet gateway
 data "aws_internet_gateway" "existing" {
   count = local.create_vpc ? 0 : 1
   filter {
@@ -36,7 +37,7 @@ resource "aws_subnet" "public" {
   availability_zone       = var.availability_zone
   map_public_ip_on_launch = true
 
-  tags = merge(var.tags, { Name = "subnet-${var.combined_name}" })
+  tags = merge(var.tags, { Name = "${var.name}-public-subnet" })
 }
 
 resource "aws_route_table" "public" {
@@ -47,11 +48,10 @@ resource "aws_route_table" "public" {
     gateway_id = local.igw_id
   }
 
-  tags = merge(var.tags, { Name = "rt-${var.combined_name}" })
+  tags = merge(var.tags, { Name = "${var.name}-public-rt" })
 }
 
 resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
-
